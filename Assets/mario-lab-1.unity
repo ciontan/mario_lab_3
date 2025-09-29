@@ -1894,7 +1894,7 @@ Transform:
   m_GameObject: {fileID: 991428312}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 4.79, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2669,7 +2669,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -4208,6 +4208,7 @@ MonoBehaviour:
   enemies: {fileID: 1121215539}
   jumpOverGoomba: {fileID: 1884124058}
   gameManager: {fileID: 85330347}
+  marioAnimator: {fileID: 1884124059}
 --- !u!61 &1884124057
 BoxCollider2D:
   m_ObjectHideFlags: 0
