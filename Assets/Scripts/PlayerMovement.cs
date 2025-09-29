@@ -6,6 +6,7 @@ using TMPro;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 70;
+    
     public float maxSpeed = 80;
     public float jumpForce = 30f;
     public float holdForce = 10f;
@@ -23,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     public Animator marioAnimator;
 
     private bool isDead;
+    public AudioSource marioAudio;
 
     // Start is called before the first frame update
     void Start()
@@ -67,6 +69,12 @@ public class PlayerMovement : MonoBehaviour
         }
 
         marioAnimator.SetFloat("xSpeed", Mathf.Abs(marioBody.linearVelocity.x));
+    }
+
+    void PlayJumpSound()
+    {
+        // play jump sound
+        marioAudio.PlayOneShot(marioAudio.clip);
     }
 
     void OnTriggerEnter2D(Collider2D other)
