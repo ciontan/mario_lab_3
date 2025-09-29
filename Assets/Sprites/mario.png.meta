@@ -126,9 +126,9 @@ TextureImporter:
       name: mario_stand_left
       rect:
         serializedVersion: 2
-        x: 181
+        x: 179
         y: 172
-        width: 13
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -148,9 +148,9 @@ TextureImporter:
       name: mario_stand_right
       rect:
         serializedVersion: 2
-        x: 211
+        x: 209
         y: 172
-        width: 13
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -162,6 +162,138 @@ TextureImporter:
       bones: []
       spriteID: 0b5eb4b66d9804580b7a1d4e0094474a
       internalID: 2009566150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_walk_right_1
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 172
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05dbe1e22bb8c4f4386c02a0d4693737
+      internalID: -566055000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_walk_right_2
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 172
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 672902d6e5cc7b1419f1c4fb12b4e9f1
+      internalID: 229493340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_walk_right_3
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 172
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f29f509779c2f048a054d7d7c89c89e
+      internalID: -1437532472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_skid_right
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 172
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f75ea3ccd2ae5940b6c4165e510a10d
+      internalID: -2042106943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_jump-right
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 172
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9881a3e0568a2cc4384d0e0be4f92850
+      internalID: -36747271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mario_die
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 157
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8fcc1105b13dcc74f8a856a2479e83ae
+      internalID: 662458876
       vertices: []
       indices: 
       edges: []
@@ -180,8 +312,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      mario_die: 662458876
+      mario_jump-right: -36747271
+      mario_skid_right: -2042106943
       mario_stand_left: -983268084
       mario_stand_right: 2009566150
+      mario_walk_right_1: -566055000
+      mario_walk_right_2: 229493340
+      mario_walk_right_3: -1437532472
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

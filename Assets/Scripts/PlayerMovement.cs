@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     public JumpOverGoomba jumpOverGoomba;
 
     public GameManagerScript gameManager;
+    public Animator marioAnimator;
 
     private bool isDead;
 
@@ -30,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
         Application.targetFrameRate = 30;
         marioBody = GetComponent<Rigidbody2D>();
         marioSprite = GetComponent<SpriteRenderer>();
+        marioAnimator.SetBool("onGround", onGroundState);
 
     }
 
@@ -47,6 +49,24 @@ public class PlayerMovement : MonoBehaviour
             faceRightState = true;
             marioSprite.flipX = false;
         }
+
+        if (Input.GetKeyDown("a") && faceRightState)
+        {
+            faceRightState = false;
+            marioSprite.flipX = true;
+            if (marioBody.linearVelocity.x > 0.1f)
+                marioAnimator.SetTrigger("onSkid");
+        }
+
+        if (Input.GetKeyDown("d") && !faceRightState)
+        {
+            faceRightState = true;
+            marioSprite.flipX = false;
+            if (marioBody.linearVelocity.x < -0.1f)
+                marioAnimator.SetTrigger("onSkid");
+        }
+
+        marioAnimator.SetFloat("xSpeed", Mathf.Abs(marioBody.linearVelocity.x));
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -61,7 +81,12 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.CompareTag("Ground")) onGroundState = true;
+        if (col.gameObject.CompareTag("Ground") && !onGroundState)
+        {
+            onGroundState = true;
+            // update animator state
+            marioAnimator.SetBool("onGround", onGroundState);
+        }
     }
 
     // FixedUpdate may be called once per frame. See documentation for details.
@@ -92,6 +117,7 @@ public class PlayerMovement : MonoBehaviour
             marioBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             onGroundState = false;
             isJumping = true;
+            marioAnimator.SetBool("onGround", onGroundState);
         }
 
         // Hold jump: apply smaller force while rising
