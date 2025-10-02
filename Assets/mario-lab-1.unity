@@ -4155,7 +4155,7 @@ Transform:
   m_GameObject: {fileID: 1884124051}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: -2.5, z: 0}
+  m_LocalPosition: {x: -5, y: -2.36, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4211,6 +4211,8 @@ MonoBehaviour:
   gameManager: {fileID: 85330347}
   marioAnimator: {fileID: 1884124059}
   marioAudio: {fileID: 1884124060}
+  marioDeath: {fileID: 8300000, guid: 90ceef20da9a84d9891da3179ede4177, type: 3}
+  deathImpulse: 15
 --- !u!61 &1884124057
 BoxCollider2D:
   m_ObjectHideFlags: 0

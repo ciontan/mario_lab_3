@@ -40,6 +40,7 @@ public class JumpOverGoomba : MonoBehaviour
     }
     public void gameOver()
     {
+        Debug.Log("gameover triggered");
         gameOverUI.SetActive(true);
         gameStartResetButton.SetActive(false);
         gameStartScore.SetActive(false);
