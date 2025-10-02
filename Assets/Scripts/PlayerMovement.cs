@@ -204,6 +204,7 @@ public class PlayerMovement : MonoBehaviour
         //// reset animation
         //marioAnimator.SetTrigger("gameRestart");
         //alive = true;
+        //gameCamera.position = new Vector3(0, 0, -0.5);
 
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
