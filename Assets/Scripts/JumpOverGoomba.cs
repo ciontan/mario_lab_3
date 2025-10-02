@@ -17,9 +17,19 @@ public class JumpOverGoomba : MonoBehaviour
     public float maxDistance;
     public LayerMask layerMask;
     // Start is called before the first frame update
+    public TextMeshProUGUI finalScoreText;
+    public GameObject gameOverUI;
+
+    public GameObject gameStartScore;
+
+    public GameObject gameStartResetButton;
+
+    public JumpOverGoomba jumpOverGoomba;
     void Start()
     {
-
+        gameOverUI.SetActive(false);
+        gameStartResetButton.SetActive(true);
+        gameStartScore.SetActive(true);
     }
 
     // Update is called once per frame
@@ -27,6 +37,13 @@ public class JumpOverGoomba : MonoBehaviour
     {
 
 
+    }
+    public void gameOver()
+    {
+        gameOverUI.SetActive(true);
+        gameStartResetButton.SetActive(false);
+        gameStartScore.SetActive(false);
+        finalScoreText.text = "Score: " + jumpOverGoomba.score.ToString();
     }
 
     void FixedUpdate()

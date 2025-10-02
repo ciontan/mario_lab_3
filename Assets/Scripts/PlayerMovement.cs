@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 70;
-    
+
     public float maxSpeed = 80;
     public float jumpForce = 30f;
     public float holdForce = 10f;
@@ -83,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("Collided with goomba!");
             Time.timeScale = 0.0f;
-            gameManager.gameOver();
+            jumpOverGoomba.gameOver();
         }
     }
 
@@ -160,24 +161,26 @@ public class PlayerMovement : MonoBehaviour
 
     public void ResetGame()
     {
-        // reset position
-        marioBody.transform.position = new Vector3(-5.00f, -2.50f, 0.0f);
-        // reset sprite direction
-        faceRightState = true;
-        marioSprite.flipX = false;
-        // reset score
-        scoreText.text = "Score: 0";
-        // reset Goomba
-        foreach (Transform eachChild in enemies.transform)
-        {
-            eachChild.localPosition = eachChild.GetComponent<EnemyMovement>().startPosition;
-        }
-        // reset score
-        jumpOverGoomba.score = 0;
-        gameManager.gameOverUI.SetActive(false);
-        gameManager.gameStartResetButton.SetActive(true);
-        gameManager.gameStartScore.SetActive(true);
+        //// reset position
+        //marioBody.transform.position = new Vector3(-5.00f, -2.50f, 0.0f);
+        //// reset sprite direction
+        //faceRightState = true;
+        //marioSprite.flipX = false;
+        //// reset score
+        //scoreText.text = "Score: 0";
+        //// reset Goomba
+        //foreach (Transform eachChild in enemies.transform)
+        //{
+        //    eachChild.localPosition = eachChild.GetComponent<EnemyMovement>().startPosition;
+        //}
+        //// reset score
+        //jumpOverGoomba.score = 0;
+        //jumpOverGoomba.gameOverUI.SetActive(false);
+        //jumpOverGoomba.gameStartResetButton.SetActive(true);
+        //jumpOverGoomba.gameStartScore.SetActive(true);
+
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
     }
-
-
+    
 }
