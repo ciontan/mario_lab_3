@@ -417,7 +417,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -439,7 +439,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -448,6 +448,28 @@ TextureImporter:
       bones: []
       spriteID: cc3e72804108344298ed60f23e51c9b5
       internalID: -1204056370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OneWay
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 1201
+        width: 48
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a72836d2ac49dc478aef803baeb0db1
+      internalID: 1618038367
       vertices: []
       indices: 
       edges: []
@@ -478,6 +500,7 @@ TextureImporter:
       Ground: -462428925
       Mountain_big: 893077068
       Mountain_small: 497750586
+      OneWay: 1618038367
       Pipe_1: 1758714480
       Pipe_extend: 1763963889
       Question_box: -1225447665
