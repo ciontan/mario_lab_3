@@ -8,6 +8,8 @@ public class JumpOverGoomba : MonoBehaviour
     public Transform enemyLocation;
     public TextMeshProUGUI scoreText;
     private bool onGroundState;
+    private bool jumpInProgress = false;
+    private bool isCollidingWithObstacle = false;
 
     [System.NonSerialized]
     public int score = 0; // we don't want this to show up in the inspector
@@ -25,6 +27,7 @@ public class JumpOverGoomba : MonoBehaviour
     public GameObject gameStartResetButton;
 
     public JumpOverGoomba jumpOverGoomba;
+    
     void Start()
     {
         gameOverUI.SetActive(false);
@@ -35,9 +38,18 @@ public class JumpOverGoomba : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
+        // Check ground state every frame
+        CheckGroundState();
+        
+        // Handle jump input - only allow jump if on ground AND not colliding with obstacle
+        if (Input.GetKeyDown(KeyCode.Space) && onGroundState && !isCollidingWithObstacle && !jumpInProgress)
+        {
+            jumpInProgress = true;
+            countScoreState = true;
+            Debug.Log("Jump initiated");
+        }
     }
+    
     public void gameOver()
     {
         Debug.Log("gameover triggered");
@@ -49,15 +61,8 @@ public class JumpOverGoomba : MonoBehaviour
 
     void FixedUpdate()
     {
-        // mario jumps
-        if (Input.GetKeyDown("space") && onGroundCheck())
-        {
-            onGroundState = false;
-            countScoreState = true;
-        }
-
         // when jumping, and Goomba is near Mario and we haven't registered our score
-        if (!onGroundState && countScoreState)
+        if (jumpInProgress && countScoreState)
         {
             if (Mathf.Abs(transform.position.x - enemyLocation.position.x) < 0.5f)
             {
@@ -71,27 +76,75 @@ public class JumpOverGoomba : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.CompareTag("Ground")) onGroundState = true;
+        // If colliding with an obstacle, prevent jumping
+        if (col.gameObject.CompareTag("Obstacle"))
+        {
+            isCollidingWithObstacle = true;
+            onGroundState = false;
+            Debug.Log("Hit obstacle - jumping disabled");
+        }
     }
 
+    void OnCollisionStay2D(Collision2D col)
+    {
+        // While in contact with obstacle, keep jumping disabled
+        if (col.gameObject.CompareTag("Obstacle"))
+        {
+            isCollidingWithObstacle = true;
+            onGroundState = false;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D col)
+    {
+        if (col.gameObject.CompareTag("Obstacle"))
+        {
+            isCollidingWithObstacle = false;
+            Debug.Log("Left obstacle - jumping may be enabled if on ground");
+        }
+        
+        if (col.gameObject.CompareTag("Ground"))
+        {
+            onGroundState = false;
+            jumpInProgress = false;
+        }
+    }
+
+    private void CheckGroundState()
+    {
+        // Don't allow ground state to be true if colliding with obstacle
+        if (isCollidingWithObstacle)
+        {
+            onGroundState = false;
+            return;
+        }
+        
+        bool wasOnGround = onGroundState;
+        onGroundState = onGroundCheck();
+        
+        // Reset jump when landing
+        if (!wasOnGround && onGroundState)
+        {
+            jumpInProgress = false;
+            Debug.Log("Landed on ground");
+        }
+    }
 
     private bool onGroundCheck()
     {
         if (Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, maxDistance, layerMask))
         {
-            Debug.Log("on ground");
             return true;
         }
         else
         {
-            Debug.Log("not on ground");
             return false;
         }
     }
+    
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawCube(transform.position - transform.up * maxDistance, boxSize);
     }
-
 }
