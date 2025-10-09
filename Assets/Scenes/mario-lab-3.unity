@@ -233,7 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a67df119115c4c3cb0a2e95c284b76f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrickBox
-  sfx: {fileID: 0}
+  sfx: {fileID: 17665752}
   playerMask:
     serializedVersion: 2
     m_Bits: 1
@@ -381,7 +381,7 @@ GameObject:
   - component: {fileID: 85330347}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1705,7 +1705,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1121215540
 Transform:
   m_ObjectHideFlags: 0
@@ -3228,11 +3228,13 @@ GameObject:
   - component: {fileID: 1884124053}
   - component: {fileID: 1884124052}
   - component: {fileID: 1884124054}
-  - component: {fileID: 1884124055}
   - component: {fileID: 1884124057}
   - component: {fileID: 1884124058}
   - component: {fileID: 1884124059}
   - component: {fileID: 1884124060}
+  - component: {fileID: 1884124061}
+  - component: {fileID: 1884124062}
+  - component: {fileID: 1884124055}
   m_Layer: 0
   m_Name: Mario
   m_TagString: Untagged
@@ -3352,11 +3354,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dd46755141c24466915cb8215ce3505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  speed: 80
-  maxSpeed: 100
-  jumpForce: 40
-  holdForce: 10
-  maxJumpVelocity: 5
+  speed: 70
+  maxSpeed: 80
+  jumpForce: 30
+  holdForce: 20
+  maxJumpVelocity: 20
   scoreText: {fileID: 998806112}
   enemies: {fileID: 1121215539}
   jumpOverGoomba: {fileID: 1884124058}
@@ -3364,7 +3366,7 @@ MonoBehaviour:
   marioAnimator: {fileID: 1884124059}
   marioAudio: {fileID: 1884124060}
   marioDeath: {fileID: 8300000, guid: 90ceef20da9a84d9891da3179ede4177, type: 3}
-  deathImpulse: 70
+  deathImpulse: 30
 --- !u!61 &1884124057
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3425,16 +3427,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::JumpOverGoomba
   enemyLocation: {fileID: 991428313}
   scoreText: {fileID: 998806112}
-  boxSize: {x: 0.5, y: 1, z: 0}
-  maxDistance: 0.5
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 8
   finalScoreText: {fileID: 1607135694}
   gameOverUI: {fileID: 1865520481}
   gameStartScore: {fileID: 998806110}
   gameStartResetButton: {fileID: 785181921}
-  jumpOverGoomba: {fileID: 1884124058}
 --- !u!95 &1884124059
 Animator:
   serializedVersion: 7
@@ -3554,6 +3550,141 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1884124061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884124051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
+  m_Actions: {fileID: -944628639613478452, guid: 017a96f872143409a9ce4b097a22f5fb, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1884124062}
+        m_TargetAssemblyTypeName: ActionManager, Assembly-CSharp
+        m_MethodName: OnMoveAction
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3c666c47-056b-406e-b948-61766c6e57df
+    m_ActionName: 'gameplay/move[/Keyboard/a,/Keyboard/d]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1884124062}
+        m_TargetAssemblyTypeName: ActionManager, Assembly-CSharp
+        m_MethodName: OnJumpAction
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6698f545-3ebd-4d34-ba49-caf6ed347ce9
+    m_ActionName: 'gameplay/jump[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1884124062}
+        m_TargetAssemblyTypeName: ActionManager, Assembly-CSharp
+        m_MethodName: OnJumpHoldAction
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c1bbcd52-4a9f-4f71-8e23-851df458fcf4
+    m_ActionName: 'gameplay/jumphold[/Keyboard/space]'
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: SuperMario
+  m_DefaultActionMap: gameplay
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &1884124062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884124051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ddede69d08b044e998b4ed48bd73df2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ActionManager
+  jump:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1884124055}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: Jump
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  jumpHold:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1884124055}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: JumpHold
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  moveCheck:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1884124055}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: MoveCheck
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1907979145
 PrefabInstance:
   m_ObjectHideFlags: 0
