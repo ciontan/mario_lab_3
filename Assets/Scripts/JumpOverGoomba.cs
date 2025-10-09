@@ -28,7 +28,7 @@ public class JumpOverGoomba : MonoBehaviour
 
     //public JumpOverGoomba jumpOverGoomba;
     public GameManager gameManager;
-    
+
     void Start()
     {
         //gameOverUI.SetActive(false);
@@ -42,7 +42,7 @@ public class JumpOverGoomba : MonoBehaviour
     {
         // Check ground state every frame
         CheckGroundState();
-        
+
         // Handle jump input - only allow jump if on ground AND not colliding with obstacle
         if (Input.GetKeyDown(KeyCode.Space) && onGroundState && !isCollidingWithObstacle && !jumpInProgress)
         {
@@ -51,7 +51,7 @@ public class JumpOverGoomba : MonoBehaviour
             Debug.Log("Jump initiated");
         }
     }
-    
+
     //public void gameOver()
     //{
     //    Debug.Log("gameover triggered");
@@ -75,13 +75,14 @@ public class JumpOverGoomba : MonoBehaviour
         //    }
         //}
 
-        // when jumping, and Goomba is near Mario and we haven't registered our score
+        // No longer increase score when jumping over Goomba
         if (!onGroundState && countScoreState)
         {
             if (Mathf.Abs(transform.position.x - enemyLocation.position.x) < 0.5f)
             {
                 countScoreState = false;
-                gameManager.IncreaseScore(1); //
+                // Removed: gameManager.IncreaseScore(1);
+                Debug.Log("Jumped over Goomba but score not increased");
             }
         }
     }
@@ -114,7 +115,7 @@ public class JumpOverGoomba : MonoBehaviour
             isCollidingWithObstacle = false;
             Debug.Log("Left obstacle - jumping may be enabled if on ground");
         }
-        
+
         if (col.gameObject.CompareTag("Ground"))
         {
             onGroundState = false;
@@ -130,10 +131,10 @@ public class JumpOverGoomba : MonoBehaviour
             onGroundState = false;
             return;
         }
-        
+
         bool wasOnGround = onGroundState;
         onGroundState = onGroundCheck();
-        
+
         // Reset jump when landing
         if (!wasOnGround && onGroundState)
         {
@@ -153,7 +154,7 @@ public class JumpOverGoomba : MonoBehaviour
             return false;
         }
     }
-    
+
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;

@@ -70,11 +70,10 @@ public class QuestionBox : MonoBehaviour
             Coin coinScript = coinObj.GetComponent<Coin>();
             if (coinScript != null)
                 coinScript.Animate();
-            Debug.Log("coinnnnnnnnnnn");
-            gameManager.IncreaseScore(1);
-            Debug.Log("coin222222222");
+            // Increase score and specify it's from a coin (true)
+            gameManager.IncreaseScore(1, true);
             Destroy(coinObj, 1f); // coin disappears after 1s
-            
+
         }
 
         // After a short moment, disable the joint by making this RB static (as per checkoff tip)

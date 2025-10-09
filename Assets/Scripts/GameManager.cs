@@ -51,10 +51,21 @@ public class GameManager : MonoBehaviour
 
     private int score = 0;
 
+    // Reference to CoinAudioController
+    private CoinAudioController coinAudioController;
+
     void Start()
     {
         gameStart.Invoke();
         Time.timeScale = 1.0f;
+
+        // Get or add CoinAudioController
+        coinAudioController = GetComponent<CoinAudioController>();
+        if (coinAudioController == null)
+        {
+            coinAudioController = gameObject.AddComponent<CoinAudioController>();
+            Debug.Log("Added CoinAudioController to GameManager");
+        }
     }
 
     // Update is called once per frame
@@ -68,24 +79,31 @@ public class GameManager : MonoBehaviour
         // reset score
         score = 0;
         SetScore(score);
+
+        // Reset coin audio
+        if (coinAudioController != null)
+            coinAudioController.ResetCoinCount();
+
         gameRestart.Invoke();
         Time.timeScale = 1.0f;
     }
 
-    public void IncreaseScore(int increment)
+    // Use this overload to specify if the score increase is from a coin
+    public void IncreaseScore(int increment, bool isCoin = false)
     {
-        Debug.Log("current score is");
-        Debug.Log(score);
         score += increment;
+
+        // Play coin sound only if it's from a coin
+        if (isCoin && coinAudioController != null)
+        {
+            coinAudioController.PlayCoinSound();
+        }
+
         SetScore(score);
-        Debug.Log("score after is");
-        Debug.Log(score);
     }
 
     public void SetScore(int score)
     {
-        Debug.Log("set sccore is invoked from game manager");
-        Debug.Log(score);
         scoreChange.Invoke(score);
     }
 
