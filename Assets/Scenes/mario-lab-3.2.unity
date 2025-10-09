@@ -380,6 +380,7 @@ GameObject:
   m_Component:
   - component: {fileID: 85330348}
   - component: {fileID: 85330347}
+  - component: {fileID: 85330349}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Manager
@@ -498,6 +499,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &85330349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85330346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e34d50d32b6b4bfeae08b4438aa8752, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoinAudioController
+  audioMixer: {fileID: 24100000, guid: e19ce370f8f5d4b98bdd1e541b1162bb, type: 2}
+  pitchParameterName: CoinPitch
+  basePitch: 1
+  pitchIncrement: 0.05
+  maxPitch: 2
+  coinSound: {fileID: 8300000, guid: d885ffc842af744d89f7d595ffcc176a, type: 3}
+  coinAudioSource: {fileID: 0}
 --- !u!4 &87613562 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4736541724895563666, guid: 46e40ba3204aa494a817504a3d5db605, type: 3}

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class BrickBox : MonoBehaviour
+public class BoxBrick : MonoBehaviour
 {
     [SerializeField] private AudioSource sfx;       // coin SFX
     [SerializeField] private LayerMask playerMask;  // layer for Mario
@@ -12,6 +12,7 @@ public class BrickBox : MonoBehaviour
     private SpriteRenderer sr;
     private Rigidbody2D rb;
     private bool used = false;
+    public GameManager gameManager;
 
     void Awake()
     {
@@ -69,6 +70,8 @@ public class BrickBox : MonoBehaviour
             Coin coinScript = coinObj.GetComponent<Coin>();
             if (coinScript != null)
                 coinScript.Animate();
+            // Increase score and specify it's from a coin (true)
+            gameManager.IncreaseScore(1, true);
             Destroy(coinObj, 1f); // coin disappears after 1s
         }
 
