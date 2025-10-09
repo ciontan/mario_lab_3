@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     // state
     [System.NonSerialized]
     public bool alive = true;
-    public AudioClip marioDeath;
+    public AudioSource marioDeathAudio;
     public float deathImpulse = 15;
     private bool moving = false;
     private bool jumpedState = false;
@@ -56,13 +56,13 @@ public class PlayerMovement : MonoBehaviour
         //    faceRightState = false;
         //    //marioSprite.flipX = true;
         //}
-//
+        //
         //if (moveHorizontal > 0 && !faceRightState)
         //{
         //    faceRightState = true;
         //    //marioSprite.flipX = false;
         //}
-//
+        //
         //if (Input.GetKeyDown("a") && faceRightState)
         //{
         //    faceRightState = false;
@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
         //    if (marioBody.linearVelocity.x > 0.1f)
         //        marioAnimator.SetTrigger("onSkid");
         //}
-//
+        //
         //if (Input.GetKeyDown("d") && !faceRightState)
         //{
         //    faceRightState = true;
@@ -99,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("Collided with goomba!");
             marioAnimator.Play("mario-die");
-            marioAudio.PlayOneShot(marioDeath);
+            marioDeathAudio.PlayOneShot(marioDeathAudio.clip);
             alive = false;
         }
     }
@@ -140,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
             //    if (marioBody.linearVelocity.magnitude < maxSpeed)
             //        marioBody.AddForce(movement * speed);
             //}
-//
+            //
             // stop
             //if (Input.GetKeyUp("a") || Input.GetKeyUp("d"))
             //{
@@ -159,7 +159,7 @@ public class PlayerMovement : MonoBehaviour
             //    isJumping = true;
             //    marioAnimator.SetBool("onGround", onGroundState);
             //}
-//
+            //
             //// Hold jump: apply smaller force while rising
             //if (Input.GetKey("space") && isJumping)
             //{
@@ -168,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
             //        marioBody.AddForce(Vector2.up * holdForce, ForceMode2D.Force);
             //    }
             //}
-//
+            //
             //// Short hop: if released early, cut upward velocity
             //if (Input.GetKeyUp("space"))
             //{
@@ -215,7 +215,7 @@ public class PlayerMovement : MonoBehaviour
     //    marioAnimator.SetTrigger("gameRestart");
     //    alive = true;
     //    gameCamera.position = new Vector3(0, 0, -1);
-//
+    //
     //    //Scene currentScene = SceneManager.GetActiveScene();
     //    //SceneManager.LoadScene(currentScene.name);
     //}
@@ -293,7 +293,7 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
-    
+
     public void JumpHold()
     {
         if (alive && jumpedState)
