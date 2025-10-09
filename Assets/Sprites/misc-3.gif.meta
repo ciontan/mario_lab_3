@@ -571,7 +571,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -580,6 +580,28 @@ TextureImporter:
       bones: []
       spriteID: 00f0b00e0619b49d8b88e59c4a8ad796
       internalID: 856321756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goomba-squash
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 343
+        width: 16
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e0900bb5ab9f467480651e60c23d4ac
+      internalID: 1016342889
       vertices: []
       indices: 
       edges: []
@@ -618,6 +640,7 @@ TextureImporter:
       coin_2: -557860607
       coin_3: -1716682364
       coin_4: -163892788
+      goomba-squash: 1016342889
       used_question: 856321756
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0

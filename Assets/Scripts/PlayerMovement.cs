@@ -41,11 +41,33 @@ public class PlayerMovement : MonoBehaviour
     {
         // Set to be 30 FPS
         Application.targetFrameRate = 30;
+
+        // Get necessary components
         marioBody = GetComponent<Rigidbody2D>();
         marioSprite = GetComponent<SpriteRenderer>();
+
+        // Set initial state
         marioAnimator.SetBool("onGround", onGroundState);
-        //marioAnimator.SetTrigger("gameRestart");
-        //alive = true;
+        alive = true; // Make sure Mario is alive at start
+
+        // Make sure we have a GameManager reference
+        if (gameManager == null)
+        {
+            gameManager = FindObjectOfType<GameManager>();
+            if (gameManager == null)
+            {
+                GameObject managerObject = GameObject.FindGameObjectWithTag("Manager");
+                if (managerObject != null)
+                {
+                    gameManager = managerObject.GetComponent<GameManager>();
+                }
+            }
+
+            if (gameManager != null)
+                Debug.Log("Found GameManager reference");
+            else
+                Debug.LogError("Could not find GameManager reference!");
+        }
     }
 
     void Update()
@@ -67,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
         //{
         //    faceRightState = false;
         //    //marioSprite.flipX = true;
-        //    if (marioBody.linearVelocity.x > 0.1f)
+        //    if (marioBody.velocity.x > 0.1f)
         //        marioAnimator.SetTrigger("onSkid");
         //}
         //
@@ -75,12 +97,13 @@ public class PlayerMovement : MonoBehaviour
         //{
         //    faceRightState = true;
         //    //marioSprite.flipX = false;
-        //    if (marioBody.linearVelocity.x < -0.1f)
+        //    if (marioBody.velocity.x < -0.1f)
         //        marioAnimator.SetTrigger("onSkid");
         //}
 
         marioAnimator.SetFloat("xSpeed", Mathf.Abs(marioBody.linearVelocity.x));
     }
+    
 
     void PlayJumpSound()
     {
@@ -95,33 +118,115 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Enemy"))
+        // Only process enemy collisions if Mario is still alive
+        if (other.gameObject.CompareTag("Enemy") && alive)
         {
-            Debug.Log("Collided with goomba!");
+            Debug.Log("Collided with goomba side trigger collider - this is a death!");
+
+            // This is specifically for side collisions or bottom collisions
+            // Make sure this trigger collider is set up to only detect side hits
+
+            // Play death animation
             marioAnimator.Play("mario-die");
-            marioDeathAudio.PlayOneShot(marioDeathAudio.clip);
+
+            // Play death sound
+            if (marioDeathAudio != null)
+                marioDeathAudio.PlayOneShot(marioDeathAudio.clip);
+
+            // Set alive to false to stop movement
             alive = false;
+
+            // Play death impulse animation
+            PlayDeathImpulse();
+
+            // Show game over screen after a delay to let animation play
+            Invoke("GameOverScene", 1.5f);
+
+            // Log for debugging
+            Debug.Log("Mario death sequence triggered");
         }
     }
 
     void GameOverScene()
     {
-        Debug.Log("gameover scene called in playermovemetn");
-        gameManager.GameOver();
+        Debug.Log("GameOverScene method called in PlayerMovement");
 
-        //// stop time
-        //Time.timeScale = 0.0f;
-        //// set gameover scene
-        //jumpOverGoomba.gameOver();
+        // Try to use existing reference
+        if (gameManager != null)
+        {
+            gameManager.GameOver();
+            Debug.Log("GameOver called on existing GameManager reference");
+            return;
+        }
+
+        // Try to find GameManager in scene
+        gameManager = GameObject.FindObjectOfType<GameManager>();
+        if (gameManager != null)
+        {
+            gameManager.GameOver();
+            Debug.Log("Found GameManager and called GameOver()");
+            return;
+        }
+
+        // Try to find by tag as last resort
+        GameObject managerObject = GameObject.FindGameObjectWithTag("Manager");
+        if (managerObject != null)
+        {
+            GameManager manager = managerObject.GetComponent<GameManager>();
+            if (manager != null)
+            {
+                manager.GameOver();
+                Debug.Log("Found GameManager by tag and called GameOver()");
+                return;
+            }
+        }
+
+        Debug.LogError("CRITICAL ERROR: Could not find any GameManager!");
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        // Check if collided with ground/platforms
         if (((collisionLayerMask & (1 << col.transform.gameObject.layer)) > 0) & !onGroundState)
         {
             onGroundState = true;
             // update animator state
             marioAnimator.SetBool("onGround", onGroundState);
+        }
+
+        // Check if we're stomping a Goomba
+        if (col.gameObject.CompareTag("Enemy"))
+        {
+            // Calculate if Mario is above the Goomba
+            float marioBottom = transform.position.y - GetComponent<Collider2D>().bounds.extents.y;
+            float goombaTop = col.transform.position.y + col.collider.bounds.extents.y;
+
+            // Also check velocity - we should be moving downward
+            bool comingFromAbove = marioBody.linearVelocity.y <= 0;
+
+            // If Mario's bottom is above Goomba's top, it's a stomp
+            if (marioBottom > goombaTop - 0.1f && comingFromAbove)
+            {
+                Debug.Log("Stomped on Goomba from above!");
+
+                // Apply a small bounce when stomping
+                marioBody.linearVelocity = new Vector2(marioBody.linearVelocity.x, 0);
+                marioBody.AddForce(Vector2.up * jumpForce / 2, ForceMode2D.Impulse);
+
+                // Get the GoombaController and call GetStomped
+                GoombaController goomba = col.gameObject.GetComponent<GoombaController>();
+                if (goomba != null)
+                {
+                    goomba.GetStomped();
+                    Debug.Log("Called GetStomped() from proper stomp collision");
+                }
+            }
+            else
+            {
+                // If we're hitting the Goomba from the side, don't do anything here
+                // Side collisions should be handled by OnTriggerEnter2D for isTrigger colliders
+                Debug.Log("Hit Goomba but not from above - no stomping");
+            }
         }
     }
 
@@ -137,7 +242,7 @@ public class PlayerMovement : MonoBehaviour
             //{
             //    Vector2 movement = new Vector2(moveHorizontal, 0);
             //    // check if it doesn't go beyond maxSpeed
-            //    if (marioBody.linearVelocity.magnitude < maxSpeed)
+            //    if (marioBody.velocity.magnitude < maxSpeed)
             //        marioBody.AddForce(movement * speed);
             //}
             //
@@ -145,7 +250,7 @@ public class PlayerMovement : MonoBehaviour
             //if (Input.GetKeyUp("a") || Input.GetKeyUp("d"))
             //{
             //    // stop
-            //    marioBody.linearVelocity = Vector2.zero;
+            //    marioBody.velocity = Vector2.zero;
             //}
 
 
@@ -163,7 +268,7 @@ public class PlayerMovement : MonoBehaviour
             //// Hold jump: apply smaller force while rising
             //if (Input.GetKey("space") && isJumping)
             //{
-            //    if (marioBody.linearVelocity.y > 0 && marioBody.linearVelocity.y < maxJumpVelocity)
+            //    if (marioBody.velocity.y > 0 && marioBody.velocity.y < maxJumpVelocity)
             //    {
             //        marioBody.AddForce(Vector2.up * holdForce, ForceMode2D.Force);
             //    }
@@ -172,9 +277,9 @@ public class PlayerMovement : MonoBehaviour
             //// Short hop: if released early, cut upward velocity
             //if (Input.GetKeyUp("space"))
             //{
-            //    if (marioBody.linearVelocity.y > 0)
+            //    if (marioBody.velocity.y > 0)
             //    {
-            //        marioBody.linearVelocity = new Vector2(marioBody.linearVelocity.x, marioBody.linearVelocity.y * 0.25f);
+            //        marioBody.velocity = new Vector2(marioBody.velocity.x, marioBody.velocity.y * 0.25f);
             //    }
             //    isJumping = false;
             //}
@@ -234,6 +339,29 @@ public class PlayerMovement : MonoBehaviour
 
         // reset camera position
         gameCamera.position = new Vector3(0, 0, -10);
+
+        // Reset the score in GameManager
+        if (gameManager != null)
+            gameManager.ResetScore();
+
+        // Respawn Goombas
+        foreach (Transform eachChild in enemies.transform)
+        {
+            // Check if the child is active
+            if (!eachChild.gameObject.activeSelf)
+            {
+                // Respawn it by creating a new instance
+                Instantiate(eachChild.gameObject, eachChild.GetComponent<EnemyMovement>().startPosition, Quaternion.identity, enemies.transform);
+            }
+            else
+            {
+                // Just reset position
+                eachChild.localPosition = eachChild.GetComponent<EnemyMovement>().startPosition;
+            }
+        }
+
+        // Resume time in case it was paused
+        Time.timeScale = 1.0f;
     }
 
     void FlipMarioSprite(int value)
