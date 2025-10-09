@@ -101,9 +101,9 @@ public class PlayerMovement : MonoBehaviour
         //        marioAnimator.SetTrigger("onSkid");
         //}
 
-        marioAnimator.SetFloat("xSpeed", Mathf.Abs(marioBody.linearVelocity.x));
+        marioAnimator.SetFloat("xSpeed", Mathf.Abs(marioBody.velocity.x));
     }
-    
+
 
     void PlayJumpSound()
     {
@@ -202,7 +202,7 @@ public class PlayerMovement : MonoBehaviour
             float goombaTop = col.transform.position.y + col.collider.bounds.extents.y;
 
             // Also check velocity - we should be moving downward
-            bool comingFromAbove = marioBody.linearVelocity.y <= 0;
+            bool comingFromAbove = marioBody.velocity.y <= 0;
 
             // If Mario's bottom is above Goomba's top, it's a stomp
             if (marioBottom > goombaTop - 0.1f && comingFromAbove)
@@ -210,7 +210,7 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Stomped on Goomba from above!");
 
                 // Apply a small bounce when stomping
-                marioBody.linearVelocity = new Vector2(marioBody.linearVelocity.x, 0);
+                marioBody.velocity = new Vector2(marioBody.velocity.x, 0);
                 marioBody.AddForce(Vector2.up * jumpForce / 2, ForceMode2D.Impulse);
 
                 // Get the GoombaController and call GetStomped
@@ -370,7 +370,7 @@ public class PlayerMovement : MonoBehaviour
         {
             faceRightState = false;
             marioSprite.flipX = true;
-            if (marioBody.linearVelocity.x > 0.05f)
+            if (marioBody.velocity.x > 0.05f)
                 marioAnimator.SetTrigger("onSkid");
 
         }
@@ -379,7 +379,7 @@ public class PlayerMovement : MonoBehaviour
         {
             faceRightState = true;
             marioSprite.flipX = false;
-            if (marioBody.linearVelocity.x < -0.05f)
+            if (marioBody.velocity.x < -0.05f)
                 marioAnimator.SetTrigger("onSkid");
         }
     }
@@ -389,7 +389,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector2 movement = new Vector2(value, 0);
         // check if it doesn't go beyond maxSpeed
-        if (marioBody.linearVelocity.magnitude < maxSpeed)
+        if (marioBody.velocity.magnitude < maxSpeed)
             marioBody.AddForce(movement * speed);
     }
 
