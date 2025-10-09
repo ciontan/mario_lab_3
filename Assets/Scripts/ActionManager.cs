@@ -41,26 +41,41 @@ public class ActionManager : MonoBehaviour
     // called twice, when pressed and unpressed
     public void OnMoveAction(InputAction.CallbackContext context)
     {
-        if (context.started || context.performed)
+        // Debug.Log("OnMoveAction callback invoked");
+        if (context.started)
         {
-            float inputValue = context.ReadValue<float>();
-
-            if (Mathf.Abs(inputValue) > 0.1f) // Dead zone
-            {
-                int faceRight = inputValue > 0 ? 1 : -1;
-                Debug.Log($"Moving: {faceRight}");
-                moveCheck.Invoke(faceRight);
-            }
-            else
-            {
-                Debug.Log("Input below threshold");
-                moveCheck.Invoke(0);
-            }
+            Debug.Log("move started");
+            int faceRight = context.ReadValue<float>() > 0 ? 1 : -1;
+            moveCheck.Invoke(faceRight);
         }
-        else if (context.canceled)
+        if (context.canceled)
         {
-            Debug.Log("Move stopped");
+            Debug.Log("move stopped");
             moveCheck.Invoke(0);
         }
+
     }
+
+    public void OnClickAction(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            Debug.Log("mouse click started");
+        else if (context.performed)
+        {
+            Debug.Log("mouse click performed");
+        }
+        else if (context.canceled)
+            Debug.Log("mouse click cancelled");
+    }
+
+    public void OnPointAction(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Vector2 point = context.ReadValue<Vector2>();
+            Debug.Log($"Point detected: {point}");
+
+        }
+    }
+
 }

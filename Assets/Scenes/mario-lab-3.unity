@@ -3232,9 +3232,14 @@ GameObject:
   - component: {fileID: 1884124058}
   - component: {fileID: 1884124059}
   - component: {fileID: 1884124060}
+<<<<<<< HEAD
   - component: {fileID: 1884124061}
   - component: {fileID: 1884124062}
   - component: {fileID: 1884124055}
+=======
+  - component: {fileID: 1884124062}
+  - component: {fileID: 1884124061}
+>>>>>>> origin/matt-lab
   m_Layer: 0
   m_Name: Mario
   m_TagString: Untagged
@@ -3559,11 +3564,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 1884124051}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
   m_Actions: {fileID: -944628639613478452, guid: 017a96f872143409a9ce4b097a22f5fb, type: 3}
   m_NotificationBehavior: 2
+=======
+  m_Script: {fileID: 11500000, guid: c92087ac8ab2bb6468341122480946ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ActionManager
+  playerInput: {fileID: 1884124062}
+--- !u!114 &1884124062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884124051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
+  m_Actions: {fileID: -944628639613478452, guid: cc72988b6339ca849a6e87e773e4826f, type: 3}
+  m_NotificationBehavior: 0
+>>>>>>> origin/matt-lab
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -3574,6 +3600,7 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<< HEAD
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
@@ -3685,6 +3712,14 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+=======
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: keyboard
+  m_DefaultActionMap: gameplay
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+>>>>>>> origin/matt-lab
 --- !u!1001 &1907979145
 PrefabInstance:
   m_ObjectHideFlags: 0

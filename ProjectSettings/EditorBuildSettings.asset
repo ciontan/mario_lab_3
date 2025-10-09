@@ -9,5 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   m_configObjects:
+<<<<<<< HEAD
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 017a96f872143409a9ce4b097a22f5fb, type: 3}
+=======
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: cc72988b6339ca849a6e87e773e4826f, type: 3}
+>>>>>>> origin/matt-lab
   m_UseUCBPForAssetBundles: 0
