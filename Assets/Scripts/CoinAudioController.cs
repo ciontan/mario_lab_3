@@ -17,12 +17,9 @@ public class CoinAudioController : MonoBehaviour
 
     void Start()
     {
-        // Initialize audio source if not assigned
         if (coinAudioSource == null)
         {
             coinAudioSource = gameObject.AddComponent<AudioSource>();
-
-            // Try to assign the output group if mixer exists
             if (audioMixer != null)
             {
                 AudioMixerGroup[] groups = audioMixer.FindMatchingGroups("SFX");
@@ -32,23 +29,14 @@ public class CoinAudioController : MonoBehaviour
                 }
             }
         }
-
-        // Check if we can use audio mixer
         useAudioMixer = audioMixer != null && audioMixer.GetFloat(pitchParameterName, out _);
-
-        // Initialize pitch
         ResetCoinCount();
     }
 
     public void PlayCoinSound()
     {
-        // Increment coin count
         coinCount++;
-
-        // Calculate new pitch value
         float newPitch = Mathf.Min(basePitch + (coinCount * pitchIncrement), maxPitch);
-
-        // Update pitch either through mixer or directly on audio source
         if (useAudioMixer && audioMixer != null)
         {
             audioMixer.SetFloat(pitchParameterName, newPitch);
@@ -57,8 +45,6 @@ public class CoinAudioController : MonoBehaviour
         {
             coinAudioSource.pitch = newPitch;
         }
-
-        // Play the sound
         if (coinSound != null && coinAudioSource != null)
         {
             coinAudioSource.PlayOneShot(coinSound);
