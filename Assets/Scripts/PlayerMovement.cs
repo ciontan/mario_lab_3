@@ -102,10 +102,37 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("Collided with goomba!");
-            marioAnimator.Play("mario-die");
-            marioAudio.PlayOneShot(marioDeath);
+
+            // Check if already dead to prevent multiple calls
+            if (!alive) return;
+
+            // Mark as dead first
             alive = false;
+
+            // Play death animation
+            marioAnimator.Play("mario-die");
+
+            // Create a separate AudioSource for death sound so it won't be interrupted
+            AudioSource.PlayClipAtPoint(marioDeath, transform.position, 1.0f);
+            Debug.Log("Using PlayClipAtPoint for death audio");
+
+            // Add death impulse
+            marioBody.linearVelocity = Vector2.zero;
+            marioBody.AddForce(Vector2.up * deathImpulse, ForceMode2D.Impulse);
+
+            // Delay the game over screen to allow animation and sound to play
+            StartCoroutine(DelayedGameOver());
         }
+    }
+
+    IEnumerator DelayedGameOver()
+    {
+        // Wait to let animation and sound play (use WaitForSecondsRealtime to ignore timeScale)
+        yield return new WaitForSecondsRealtime(1.0f);
+        Debug.Log("Showing game over screen");
+
+        // Make sure not to set Time.timeScale = 0 until after the audio has played
+        gameManager.gameOver();
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -147,6 +174,15 @@ public class PlayerMovement : MonoBehaviour
 
     public void ResetGame()
     {
+        // Load the current scene
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
+
+        // Note: The commented code below won't run because scene loading
+        // will destroy this object before the remaining code executes
+        // If you want to use the manual reset approach instead of scene loading,
+        // remove the SceneManager.LoadScene line and uncomment the code below
+
         //// reset position
         //marioBody.transform.position = new Vector3(-5.00f, -2.50f, 0.0f);
         //// reset sprite direction
@@ -161,16 +197,12 @@ public class PlayerMovement : MonoBehaviour
         //}
         //// reset score
         //jumpOverGoomba.score = 0;
-        //jumpOverGoomba.gameOverUI.SetActive(false);
-        //jumpOverGoomba.gameStartResetButton.SetActive(true);
-        //jumpOverGoomba.gameStartScore.SetActive(true);
+        //gameManager.gameOverUI.SetActive(false);
+        //gameManager.gameStartResetButton.SetActive(true);
+        //gameManager.gameStartScore.SetActive(true);
         //// reset animation
         //marioAnimator.SetTrigger("gameRestart");
         //alive = true;
-        //gameCamera.position = new Vector3(0, 0, -0.5);
-
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
     }
     private bool jumpedState = false;
     public void Jump()
@@ -193,7 +225,7 @@ public class PlayerMovement : MonoBehaviour
         if (alive && jumpedState)
         {
             // jump higher
-            marioBody.AddForce(Vector2.up * holdForce, ForceMode2D.Force);
+            marioBody.AddForce(Vector2.up * jumpForce * holdForce, ForceMode2D.Force);
             jumpedState = false;
 
         }
