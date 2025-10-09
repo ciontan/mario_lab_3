@@ -36,7 +36,6 @@
 //    }
 //
 //}
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -75,18 +74,25 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseScore(int increment)
     {
+        Debug.Log("current score is");
+        Debug.Log(score);
         score += increment;
         SetScore(score);
+        Debug.Log("score after is");
+        Debug.Log(score);
     }
 
     public void SetScore(int score)
     {
+        Debug.Log("set sccore is invoked from game manager");
+        Debug.Log(score);
         scoreChange.Invoke(score);
     }
 
 
     public void GameOver()
     {
+        Debug.Log("gameover called");
         Time.timeScale = 0.0f;
         gameOver.Invoke();
     }

@@ -12,6 +12,7 @@ public class BrickBox : MonoBehaviour
     private SpriteRenderer sr;
     private Rigidbody2D rb;
     private bool used = false;
+    public GameManager gameManager;
 
     void Awake()
     {
@@ -69,6 +70,7 @@ public class BrickBox : MonoBehaviour
             Coin coinScript = coinObj.GetComponent<Coin>();
             if (coinScript != null)
                 coinScript.Animate();
+            gameManager.IncreaseScore(1);
             Destroy(coinObj, 1f); // coin disappears after 1s
         }
 

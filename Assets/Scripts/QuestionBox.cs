@@ -12,6 +12,7 @@ public class QuestionBox : MonoBehaviour
     private SpriteRenderer sr;
     private Rigidbody2D rb;
     private bool used = false;
+    public GameManager gameManager;
 
     void Awake()
     {
@@ -69,7 +70,11 @@ public class QuestionBox : MonoBehaviour
             Coin coinScript = coinObj.GetComponent<Coin>();
             if (coinScript != null)
                 coinScript.Animate();
+            Debug.Log("coinnnnnnnnnnn");
+            gameManager.IncreaseScore(1);
+            Debug.Log("coin222222222");
             Destroy(coinObj, 1f); // coin disappears after 1s
+            
         }
 
         // After a short moment, disable the joint by making this RB static (as per checkoff tip)

@@ -93,7 +93,7 @@ public class JumpOverGoomba : MonoBehaviour
         {
             isCollidingWithObstacle = true;
             onGroundState = false;
-            //Debug.Log("Hit obstacle - jumping disabled");
+            Debug.Log("Hit obstacle - jumping disabled");
         }
     }
 
@@ -112,7 +112,7 @@ public class JumpOverGoomba : MonoBehaviour
         if (col.gameObject.CompareTag("Obstacle"))
         {
             isCollidingWithObstacle = false;
-            //Debug.Log("Left obstacle - jumping may be enabled if on ground");
+            Debug.Log("Left obstacle - jumping may be enabled if on ground");
         }
         
         if (col.gameObject.CompareTag("Ground"))
@@ -138,7 +138,7 @@ public class JumpOverGoomba : MonoBehaviour
         if (!wasOnGround && onGroundState)
         {
             jumpInProgress = false;
-            //Debug.Log("Landed on ground");
+            Debug.Log("Landed on ground");
         }
     }
 
@@ -154,9 +154,9 @@ public class JumpOverGoomba : MonoBehaviour
         }
     }
     
-    //void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.yellow;
-    //    Gizmos.DrawCube(transform.position - transform.up * maxDistance, boxSize);
-    //}
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawCube(transform.position - transform.up * maxDistance, boxSize);
+    }
 }

@@ -104,13 +104,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //void GameOverScene()
-    //{
-    //    // stop time
-    //    Time.timeScale = 0.0f;
-    //    // set gameover scene
-    //    jumpOverGoomba.gameOver();
-    //}
+    void GameOverScene()
+    {
+        Debug.Log("gameover scene called in playermovemetn");
+        gameManager.GameOver();
+
+        //// stop time
+        //Time.timeScale = 0.0f;
+        //// set gameover scene
+        //jumpOverGoomba.gameOver();
+    }
 
     void OnCollisionEnter2D(Collision2D col)
     {
@@ -220,7 +223,7 @@ public class PlayerMovement : MonoBehaviour
     public void ResetGame()
     {
         // reset position
-        marioBody.transform.position = new Vector3(-5.33f, -4.69f, 0.0f);
+        marioBody.transform.position = new Vector3(-5.33f, -2.36f, 0.0f);
         // reset sprite direction
         faceRightState = true;
         marioSprite.flipX = false;
