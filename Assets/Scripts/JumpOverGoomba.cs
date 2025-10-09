@@ -6,33 +6,35 @@ using TMPro;
 public class JumpOverGoomba : MonoBehaviour
 {
     public Transform enemyLocation;
-    public TextMeshProUGUI scoreText;
+    //public TextMeshProUGUI scoreText;
     private bool onGroundState;
     private bool jumpInProgress = false;
     private bool isCollidingWithObstacle = false;
 
-    [System.NonSerialized]
-    public int score = 0; // we don't want this to show up in the inspector
+    //[System.NonSerialized]
+    //public int score = 0; // we don't want this to show up in the inspector
 
     private bool countScoreState = false;
     public Vector3 boxSize;
     public float maxDistance;
     public LayerMask layerMask;
     // Start is called before the first frame update
-    public TextMeshProUGUI finalScoreText;
-    public GameObject gameOverUI;
+    //public TextMeshProUGUI finalScoreText;
+    //public GameObject gameOverUI;
 
-    public GameObject gameStartScore;
+    //public GameObject gameStartScore;
 
-    public GameObject gameStartResetButton;
+    //public GameObject gameStartResetButton;
 
-    public JumpOverGoomba jumpOverGoomba;
+    //public JumpOverGoomba jumpOverGoomba;
+    public GameManager gameManager;
     
     void Start()
     {
-        gameOverUI.SetActive(false);
-        gameStartResetButton.SetActive(true);
-        gameStartScore.SetActive(true);
+        //gameOverUI.SetActive(false);
+        //gameStartResetButton.SetActive(true);
+        //gameStartScore.SetActive(true);
+        gameManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -50,26 +52,36 @@ public class JumpOverGoomba : MonoBehaviour
         }
     }
     
-    public void gameOver()
-    {
-        Debug.Log("gameover triggered");
-        gameOverUI.SetActive(true);
-        gameStartResetButton.SetActive(false);
-        gameStartScore.SetActive(false);
-        finalScoreText.text = "Score: " + jumpOverGoomba.score.ToString();
-    }
+    //public void gameOver()
+    //{
+    //    Debug.Log("gameover triggered");
+    //    gameOverUI.SetActive(true);
+    //    gameStartResetButton.SetActive(false);
+    //    gameStartScore.SetActive(false);
+    //    finalScoreText.text = "Score: " + jumpOverGoomba.score.ToString();
+    //}
 
     void FixedUpdate()
     {
+        //// when jumping, and Goomba is near Mario and we haven't registered our score
+        //if (jumpInProgress && countScoreState)
+        //{
+        //    if (Mathf.Abs(transform.position.x - enemyLocation.position.x) < 0.5f)
+        //    {
+        //        countScoreState = false;
+        //        score++;
+        //        scoreText.text = "Score: " + score.ToString();
+        //        Debug.Log(score);
+        //    }
+        //}
+
         // when jumping, and Goomba is near Mario and we haven't registered our score
-        if (jumpInProgress && countScoreState)
+        if (!onGroundState && countScoreState)
         {
             if (Mathf.Abs(transform.position.x - enemyLocation.position.x) < 0.5f)
             {
                 countScoreState = false;
-                score++;
-                scoreText.text = "Score: " + score.ToString();
-                Debug.Log(score);
+                gameManager.IncreaseScore(1); //
             }
         }
     }
@@ -142,9 +154,9 @@ public class JumpOverGoomba : MonoBehaviour
         }
     }
     
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawCube(transform.position - transform.up * maxDistance, boxSize);
-    }
+    //void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.yellow;
+    //    Gizmos.DrawCube(transform.position - transform.up * maxDistance, boxSize);
+    //}
 }

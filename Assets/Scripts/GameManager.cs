@@ -1,38 +1,93 @@
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
+//using TMPro;
+//using UnityEngine.SocialPlatforms.Impl;
+//
+//public class GameManagerScript : MonoBehaviour
+//{
+//    public TextMeshProUGUI finalScoreText;
+//    public GameObject gameOverUI;
+//
+//    public GameObject gameStartScore;
+//
+//    public GameObject gameStartResetButton;
+//
+//    public JumpOverGoomba jumpOverGoomba;
+//
+//    void Start()
+//    {
+//        gameOverUI.SetActive(false);
+//        gameStartResetButton.SetActive(true);
+//        gameStartScore.SetActive(true);
+//    }
+//
+//    void Update()
+//    {
+//
+//    }
+//
+//    public void gameOver()
+//    {
+//        gameOverUI.SetActive(true);
+//        gameStartResetButton.SetActive(false);
+//        gameStartScore.SetActive(false);
+//        finalScoreText.text = "Score: " + jumpOverGoomba.score.ToString();
+//    }
+//
+//}
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.Events;
 
-public class GameManagerScript : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public TextMeshProUGUI finalScoreText;
-    public GameObject gameOverUI;
+    // events
+    public UnityEvent gameStart;
+    public UnityEvent gameRestart;
+    public UnityEvent<int> scoreChange;
+    public UnityEvent gameOver;
 
-    public GameObject gameStartScore;
-
-    public GameObject gameStartResetButton;
-
-    public JumpOverGoomba jumpOverGoomba;
+    private int score = 0;
 
     void Start()
     {
-        gameOverUI.SetActive(false);
-        gameStartResetButton.SetActive(true);
-        gameStartScore.SetActive(true);
+        gameStart.Invoke();
+        Time.timeScale = 1.0f;
     }
 
+    // Update is called once per frame
     void Update()
     {
 
     }
 
-    public void gameOver()
+    public void GameRestart()
     {
-        gameOverUI.SetActive(true);
-        gameStartResetButton.SetActive(false);
-        gameStartScore.SetActive(false);
-        finalScoreText.text = "Score: " + jumpOverGoomba.score.ToString();
+        // reset score
+        score = 0;
+        SetScore(score);
+        gameRestart.Invoke();
+        Time.timeScale = 1.0f;
     }
 
+    public void IncreaseScore(int increment)
+    {
+        score += increment;
+        SetScore(score);
+    }
+
+    public void SetScore(int score)
+    {
+        scoreChange.Invoke(score);
+    }
+
+
+    public void GameOver()
+    {
+        Time.timeScale = 0.0f;
+        gameOver.Invoke();
+    }
 }
