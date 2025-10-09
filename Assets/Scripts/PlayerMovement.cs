@@ -30,6 +30,8 @@ public class PlayerMovement : MonoBehaviour
     public bool alive = true;
     public AudioClip marioDeath;
     public float deathImpulse = 15;
+    private bool moving = false;
+    private bool jumpedState = false;
     int collisionLayerMask = (1 << 3) | (1 << 6) | (1 << 7);
 
     // Start is called before the first frame update
@@ -46,34 +48,34 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        float moveHorizontal = Input.GetAxisRaw("Horizontal");
-        if (moveHorizontal < 0 && faceRightState)
-        {
-            faceRightState = false;
-            marioSprite.flipX = true;
-        }
-
-        if (moveHorizontal > 0 && !faceRightState)
-        {
-            faceRightState = true;
-            marioSprite.flipX = false;
-        }
-
-        if (Input.GetKeyDown("a") && faceRightState)
-        {
-            faceRightState = false;
-            marioSprite.flipX = true;
-            if (marioBody.linearVelocity.x > 0.1f)
-                marioAnimator.SetTrigger("onSkid");
-        }
-
-        if (Input.GetKeyDown("d") && !faceRightState)
-        {
-            faceRightState = true;
-            marioSprite.flipX = false;
-            if (marioBody.linearVelocity.x < -0.1f)
-                marioAnimator.SetTrigger("onSkid");
-        }
+        //float moveHorizontal = Input.GetAxisRaw("Horizontal");
+        //if (moveHorizontal < 0 && faceRightState)
+        //{
+        //    faceRightState = false;
+        //    //marioSprite.flipX = true;
+        //}
+//
+        //if (moveHorizontal > 0 && !faceRightState)
+        //{
+        //    faceRightState = true;
+        //    //marioSprite.flipX = false;
+        //}
+//
+        //if (Input.GetKeyDown("a") && faceRightState)
+        //{
+        //    faceRightState = false;
+        //    //marioSprite.flipX = true;
+        //    if (marioBody.linearVelocity.x > 0.1f)
+        //        marioAnimator.SetTrigger("onSkid");
+        //}
+//
+        //if (Input.GetKeyDown("d") && !faceRightState)
+        //{
+        //    faceRightState = true;
+        //    //marioSprite.flipX = false;
+        //    if (marioBody.linearVelocity.x < -0.1f)
+        //        marioAnimator.SetTrigger("onSkid");
+        //}
 
         marioAnimator.SetFloat("xSpeed", Mathf.Abs(marioBody.linearVelocity.x));
     }
@@ -121,54 +123,56 @@ public class PlayerMovement : MonoBehaviour
     // FixedUpdate may be called once per frame. See documentation for details.
     void FixedUpdate()
     {
-        if (alive)
+        if (alive && moving)
         {
-            float moveHorizontal = Input.GetAxisRaw("Horizontal");
+            Move(faceRightState == true ? 1 : -1);
+            //float moveHorizontal = Input.GetAxisRaw("Horizontal");
 
-            if (Mathf.Abs(moveHorizontal) > 0)
-            {
-                Vector2 movement = new Vector2(moveHorizontal, 0);
-                // check if it doesn't go beyond maxSpeed
-                if (marioBody.linearVelocity.magnitude < maxSpeed)
-                    marioBody.AddForce(movement * speed);
-            }
-
+            //if (Mathf.Abs(moveHorizontal) > 0)
+            //{
+            //    Vector2 movement = new Vector2(moveHorizontal, 0);
+            //    // check if it doesn't go beyond maxSpeed
+            //    if (marioBody.linearVelocity.magnitude < maxSpeed)
+            //        marioBody.AddForce(movement * speed);
+            //}
+//
             // stop
-            if (Input.GetKeyUp("a") || Input.GetKeyUp("d"))
-            {
-                // stop
-                marioBody.linearVelocity = Vector2.zero;
-            }
+            //if (Input.GetKeyUp("a") || Input.GetKeyUp("d"))
+            //{
+            //    // stop
+            //    marioBody.linearVelocity = Vector2.zero;
+            //}
 
 
             // Making the jump more like the actual mario game
             // Start jump
-            if (Input.GetKeyDown("space") && onGroundState)
-            {
-                marioBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                onGroundState = false;
-                isJumping = true;
-                marioAnimator.SetBool("onGround", onGroundState);
-            }
 
-            // Hold jump: apply smaller force while rising
-            if (Input.GetKey("space") && isJumping)
-            {
-                if (marioBody.linearVelocity.y > 0 && marioBody.linearVelocity.y < maxJumpVelocity)
-                {
-                    marioBody.AddForce(Vector2.up * holdForce, ForceMode2D.Force);
-                }
-            }
-
-            // Short hop: if released early, cut upward velocity
-            if (Input.GetKeyUp("space"))
-            {
-                if (marioBody.linearVelocity.y > 0)
-                {
-                    marioBody.linearVelocity = new Vector2(marioBody.linearVelocity.x, marioBody.linearVelocity.y * 0.25f);
-                }
-                isJumping = false;
-            }
+            //if (Input.GetKeyDown("space") && onGroundState)
+            //{
+            //    marioBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            //    onGroundState = false;
+            //    isJumping = true;
+            //    marioAnimator.SetBool("onGround", onGroundState);
+            //}
+//
+            //// Hold jump: apply smaller force while rising
+            //if (Input.GetKey("space") && isJumping)
+            //{
+            //    if (marioBody.linearVelocity.y > 0 && marioBody.linearVelocity.y < maxJumpVelocity)
+            //    {
+            //        marioBody.AddForce(Vector2.up * holdForce, ForceMode2D.Force);
+            //    }
+            //}
+//
+            //// Short hop: if released early, cut upward velocity
+            //if (Input.GetKeyUp("space"))
+            //{
+            //    if (marioBody.linearVelocity.y > 0)
+            //    {
+            //        marioBody.linearVelocity = new Vector2(marioBody.linearVelocity.x, marioBody.linearVelocity.y * 0.25f);
+            //    }
+            //    isJumping = false;
+            //}
         }
 
     }
@@ -210,5 +214,75 @@ public class PlayerMovement : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
     }
+
+    void FlipMarioSprite(int value)
+    {
+        if (value == -1 && faceRightState)
+        {
+            faceRightState = false;
+            marioSprite.flipX = true;
+            if (marioBody.linearVelocity.x > 0.05f)
+                marioAnimator.SetTrigger("onSkid");
+
+        }
+
+        else if (value == 1 && !faceRightState)
+        {
+            faceRightState = true;
+            marioSprite.flipX = false;
+            if (marioBody.linearVelocity.x < -0.05f)
+                marioAnimator.SetTrigger("onSkid");
+        }
+    }
+
+    void Move(int value)
+    {
+
+        Vector2 movement = new Vector2(value, 0);
+        // check if it doesn't go beyond maxSpeed
+        if (marioBody.linearVelocity.magnitude < maxSpeed)
+            marioBody.AddForce(movement * speed);
+    }
+
+    public void MoveCheck(int value)
+    {
+        if (value == 0)
+        {
+            moving = false;
+        }
+        else
+        {
+            FlipMarioSprite(value);
+            moving = true;
+            Move(value);
+        }
+    }
+
+    public void Jump()
+    {
+        if (alive && onGroundState)
+        {
+            // jump
+            marioBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            onGroundState = false;
+            jumpedState = true;
+            isJumping = true;
+            // update animator state
+            marioAnimator.SetBool("onGround", onGroundState);
+
+        }
+    }
     
+    public void JumpHold()
+    {
+        if (alive && jumpedState)
+        {
+            // jump higher
+            marioBody.AddForce(Vector2.up * jumpForce * 30, ForceMode2D.Force);
+            jumpedState = false;
+            isJumping = false;
+
+        }
+    }
+
 }
